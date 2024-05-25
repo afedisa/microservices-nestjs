@@ -1,0 +1,97 @@
+version: '3.9'
+
+services:
+  gateway:
+    container_name: gateway_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/gateway/Dockerfile
+    ports:
+      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
+    depends_on:
+      - user
+      # - auth
+      # - vehicle
+      # - otp
+      - rabbit
+  user:
+    container_name: user_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/user/Dockerfile
+    depends_on:
+      - primary_db
+      - rabbit
+  auth:
+    container_name: auth_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/auth/Dockerfile
+    depends_on:
+      - user
+      # - otp
+      - primary_db
+      - rabbit
+  # vehicle:
+  #   container_name: vehicle_service
+  #   build:
+  #     context: .
+  #     target: development
+  #     dockerfile: ./apps/vehicle/Dockerfile
+  #   depends_on:
+  #     - user
+  #     - primary_db
+  #     - rabbit
+  company:
+    container_name: company_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/company/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  # otp:
+  #   container_name: otp_service
+  #   build:
+  #     context: .
+  #     target: development
+  #     dockerfile: ./apps/otp/Dockerfile
+  #   depends_on:
+  #     - rabbit
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3.8
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_MQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_MQ_PASSWORD}
+    ports:
+      - "${RABBIT_MQ_PORT}:5672"
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+  primary_db:
+    container_name: primary_db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${PRIMARY_DB_USERNAME}
+      - POSTGRES_PASSWORD=${PRIMARY_DB_PASSWORD}
+      - POSTGRES_DB=${PRIMARY_DB_NAME}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "${PRIMARY_DB_PORT}:5432"
+    volumes:
+       - ./primary_db_data:/var/lib/postgresql/data
+  db_manager:
+    container_name: db_manager
+    image: adminer
+    ports:
+      - '${DB_MANAGER_PORT}:8080'
+
+volumes:
+  primary_db_data:
+    driver: local
