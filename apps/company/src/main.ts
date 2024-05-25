@@ -7,7 +7,9 @@ async function bootstrap() {
   const app = await NestFactory.create(CompanyModule);
 
   // * setup
-  app.connectMicroservice<MicroserviceOptions>(app.get<MicroserviceOptions>(RABBIT_SERVICE_OPTIONS));
+  app.connectMicroservice<MicroserviceOptions>(
+    app.get<MicroserviceOptions>(RABBIT_SERVICE_OPTIONS),
+  );
 
   // * start
   await app.startAllMicroservices();

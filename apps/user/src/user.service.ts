@@ -19,15 +19,21 @@ export class UserService {
   async create(
     createDto: CreateUserDto,
   ): Promise<IServiceResponse<UserEntity>> {
-    console.log('createDto', createDto);
-    const user = this.userRepository.create(createDto);
-    console.log('createDto user', user);
-    const result = await this.userRepository.save(user);
-    return {
-      state: !!result,
-      data: result,
-      message: 'user.created',
-    };
+    try {
+      const user = this.userRepository.create(createDto);
+      const result = await this.userRepository.save(user);
+      return {
+        state: !!result,
+        data: result,
+        message: 'user.created',
+      };
+    } catch (error) {
+      return {
+        state: false,
+        data: error.detail,
+        message: 'user.created-fail',
+      };
+    }
   }
 
   async findAll({
@@ -60,9 +66,7 @@ export class UserService {
   }
 
   async findByPhone(phone: string): Promise<IServiceResponse<UserEntity>> {
-    console.log('phone', phone);
     const user = await this.userRepository.findOneBy({ phone });
-    console.log('user', phone, user);
     return {
       state: !!user,
       data: user,

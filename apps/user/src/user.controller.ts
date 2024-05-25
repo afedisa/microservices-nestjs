@@ -16,7 +16,6 @@ export class UserController {
   async createUser(
     @Payload() createDto: CreateUserDto,
   ): Promise<IServiceResponse<UserEntity>> {
-    console.log('createUser', createDto);
     return await this.userService.create(createDto);
   }
 

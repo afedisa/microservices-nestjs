@@ -34,18 +34,20 @@ export class UserGatewayController {
     @Body() createDto: CreateUserDto,
     @CurrentUser() user: UserEntity,
   ): Promise<IGatewayResponse<UserEntity>> {
-    const { state, data: company } = await firstValueFrom(
-      this.userClient.send<
-        IServiceResponse<UserEntity>,
-        { createDto: CreateUserDto; user: UserEntity }
-      >(USER_MESSAGE_PATTERNS.CREATE, {
+    const {
+      state,
+      data: newUser,
+      message,
+    } = await firstValueFrom(
+      this.userClient.send<IServiceResponse<UserEntity>, CreateUserDto>(
+        USER_MESSAGE_PATTERNS.CREATE,
         createDto,
-        user,
-      }),
+      ),
     );
     return {
       state,
-      data: company,
+      data: newUser,
+      message: message,
     };
   }
 }

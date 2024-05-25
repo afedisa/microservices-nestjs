@@ -26,7 +26,7 @@ import { UserEntity } from 'apps/user/src/entity/user.entity';
   path: '/companies',
   version: '1',
 })
-@Auth()
+// @Auth()
 export class CompanyGatewayController {
   constructor(
     @Inject(RabbitServiceName.COMPANY) private companyClient: ClientProxy,

@@ -1,7 +1,12 @@
-import { PickType } from "@nestjs/swagger";
-import { BaseVehicleDto } from "./base-vehicle.dto";
+import { PickType } from '@nestjs/swagger';
+import { BaseVehicleDto } from './base-vehicle.dto';
 
-export class CreateVehicleDto extends PickType(
-    BaseVehicleDto,
-    ['model', 'isHeavy', 'plate', 'color', 'vin', 'distance', 'year']
-) { }
+export class CreateVehicleDto extends PickType(BaseVehicleDto, [
+  'model',
+  'isHeavy',
+  'plate',
+  'color',
+  'vin',
+  'distance',
+  'year',
+]) {}

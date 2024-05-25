@@ -1,5 +1,6 @@
 {
     "created": "User successfully created",
+    "created-fail": "Error creating user",
     "updated": "User updated successfully",
     "update-fail": "Error updating user",
     "found": "User found successfully",
