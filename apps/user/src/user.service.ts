@@ -57,12 +57,22 @@ export class UserService {
   }
 
   async findById(id: string): Promise<IServiceResponse<UserEntity>> {
-    const user = await this.userRepository.findOneBy({ id });
-    return {
-      state: !!user,
-      data: user,
-      message: !!user ? 'user.finded' : 'user.notfound',
-    };
+    console.log('findOneBy', id);
+    try {
+      const user = await this.userRepository.findOneBy({ id });
+      return {
+        state: !!user,
+        data: user,
+        message: !!user ? 'user.finded' : 'user.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'user.notfound',
+      };
+    }
   }
 
   async findByPhone(phone: string): Promise<IServiceResponse<UserEntity>> {

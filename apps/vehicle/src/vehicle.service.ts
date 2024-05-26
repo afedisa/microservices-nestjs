@@ -14,35 +14,42 @@ import { FindVehiclesDto } from './dto/find-vehicle.dto';
 @Injectable()
 export class VehicleService {
   constructor(
-    @InjectRepository(VehicleEntity, Database.PRIMARY) private vehicleRepository: Repository<VehicleEntity>,
-    @Inject(RabbitServiceName.USER) private userClient: ClientProxy
-  ) { }
+    @InjectRepository(VehicleEntity, Database.PRIMARY)
+    private vehicleRepository: Repository<VehicleEntity>,
+    @Inject(RabbitServiceName.USER) private userClient: ClientProxy,
+  ) {}
 
-  async create(createDto: CreateVehicleDto, user: UserEntity): Promise<IServiceResponse<VehicleEntity>> {
+  async create(
+    createDto: CreateVehicleDto,
+    user: UserEntity,
+  ): Promise<IServiceResponse<VehicleEntity>> {
     const vehicle = await this.vehicleRepository.create(createDto);
     vehicle.user = user;
     const result = await this.vehicleRepository.save(vehicle);
     return {
       state: !!result,
-      data: result
+      data: result,
     };
   }
 
-  async findAll(findDto: FindVehiclesDto): Promise<IServiceResponse<IPagination<VehicleEntity>>> {
-    const { model, isHeavy, plate, color, vin, distance, year, limit, page } = findDto;
+  async findAll(
+    findDto: FindVehiclesDto,
+  ): Promise<IServiceResponse<IPagination<VehicleEntity>>> {
+    const { model, isHeavy, plate, color, vin, distance, year, limit, page } =
+      findDto;
     const where = [
-      (model) ? { model: Like(model) } : null,
-      (isHeavy) ? { isHeavy } : null,
-      (plate) ? { plate: Like(plate) } : null,
-      (color) ? { color } : null,
-      (vin) ? { vin: Like(vin) } : null,
-      (distance) ? { distance } : null,
-      (year) ? { year } : null,
+      model ? { model: Like(model) } : null,
+      isHeavy ? { isHeavy } : null,
+      plate ? { plate: Like(plate) } : null,
+      color ? { color } : null,
+      vin ? { vin: Like(vin) } : null,
+      distance ? { distance } : null,
+      year ? { year } : null,
     ];
     const vehicles = await this.vehicleRepository.find({
       where: where,
       skip: (page - 1) * limit,
-      take: limit - 1
+      take: limit - 1,
     });
     const vehiclesCount = await this.vehicleRepository.count({ where });
     return {
@@ -51,16 +58,20 @@ export class VehicleService {
         items: vehicles,
         limit: limit,
         page: page,
-        total: vehiclesCount
-      }
-    }
+        total: vehiclesCount,
+      },
+    };
   }
 
-  async findAllByUser(userId: string): Promise<IServiceResponse<VehicleEntity[]>> {
-    const vehicles = await this.vehicleRepository.findBy({ user: { id: userId } });
+  async findAllByUser(
+    userId: string,
+  ): Promise<IServiceResponse<VehicleEntity[]>> {
+    const vehicles = await this.vehicleRepository.findBy({
+      user: { id: userId },
+    });
     return {
       state: true,
-      data: vehicles
+      data: vehicles,
     };
   }
 
@@ -68,15 +79,15 @@ export class VehicleService {
     const vehicle = await this.vehicleRepository.findOneBy({ id });
     return {
       state: true,
-      data: vehicle
-    }
+      data: vehicle,
+    };
   }
 
   async findByPlate(plate: string): Promise<IServiceResponse<VehicleEntity>> {
     const vehicle = await this.vehicleRepository.findOneBy({ plate });
     return {
       state: true,
-      data: vehicle
-    }
+      data: vehicle,
+    };
   }
 }

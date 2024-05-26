@@ -11,9 +11,7 @@ import { FindVehiclesDto } from './dto/find-vehicle.dto';
 
 @Controller()
 export class VehicleController {
-  constructor(
-    private vehicleService: VehicleService
-  ) { }
+  constructor(private vehicleService: VehicleService) {}
 
   @MessagePattern(VEHICLE_MESSAGE_PATTERNS.CREATE)
   async createVehicle(
@@ -24,17 +22,23 @@ export class VehicleController {
   }
 
   @MessagePattern(VEHICLE_MESSAGE_PATTERNS.FIND_ALL)
-  async getVehicles(@Payload() findDto: FindVehiclesDto): Promise<IServiceResponse<IPagination<VehicleEntity>>> {
+  async getVehicles(
+    @Payload() findDto: FindVehiclesDto,
+  ): Promise<IServiceResponse<IPagination<VehicleEntity>>> {
     return await this.vehicleService.findAll(findDto);
   }
 
   @MessagePattern(VEHICLE_MESSAGE_PATTERNS.FIND_ALL_BY_USER)
-  async getUserVehicles(@Payload() userId: string): Promise<IServiceResponse<VehicleEntity[]>> {
+  async getUserVehicles(
+    @Payload() userId: string,
+  ): Promise<IServiceResponse<VehicleEntity[]>> {
     return await this.vehicleService.findAllByUser(userId);
   }
 
   @MessagePattern(VEHICLE_MESSAGE_PATTERNS.FIND_BY_ID)
-  async getVehicleById(@Payload() id: string): Promise<IServiceResponse<VehicleEntity>> {
+  async getVehicleById(
+    @Payload() id: string,
+  ): Promise<IServiceResponse<VehicleEntity>> {
     return await this.vehicleService.findById(id);
   }
 }
