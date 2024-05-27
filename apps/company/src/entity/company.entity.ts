@@ -43,13 +43,13 @@ export class CompanyEntity {
   )
   members: CompanyMemberEntity[];
 
-  @OneToMany(
-    () => CompanyInvitationEntity,
-    (companyInviation) => companyInviation.company,
-  )
-  invitations: CompanyInvitationEntity[];
+  // @OneToMany(
+  //   () => CompanyInvitationEntity,
+  //   (companyInviation) => companyInviation.company,
+  // )
+  // invitations: CompanyInvitationEntity[];
 
-  @ManyToMany(() => CompanyCategoryEntity)
-  @JoinTable()
-  categories: CompanyCategoryEntity[];
+  // @ManyToMany(() => CompanyCategoryEntity)
+  // @JoinTable()
+  // categories: CompanyCategoryEntity[];
 }

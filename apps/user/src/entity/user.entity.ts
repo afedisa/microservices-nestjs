@@ -31,29 +31,29 @@ export class UserEntity {
   })
   roles: Role[];
 
-  @Column({ nullable: true })
+  @Column()
   username: string;
 
-  @Column({ nullable: true })
+  @Column()
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   nationalcode: string;
 
   @Column({ nullable: true })
   birthday: Date;
 
-  @OneToOne(() => StorageFileEntity, (storageFile) => storageFile.id, {
-    eager: true,
-    onDelete: 'SET NULL',
-  })
-  avatar: StorageFileEntity;
+  // @OneToOne(() => StorageFileEntity, (storageFile) => storageFile.id, {
+  //   eager: true,
+  //   onDelete: 'SET NULL',
+  // })
+  // avatar: StorageFileEntity;
 
-  @OneToMany(() => VehicleEntity, (vehicle) => vehicle.user)
-  vehicles: VehicleEntity[];
+  // @OneToMany(() => VehicleEntity, (vehicle) => vehicle.user)
+  // vehicles: VehicleEntity[];
 
-  @OneToMany(() => StorageFileEntity, (storageFile) => storageFile.user)
-  files: StorageFileEntity[];
+  // @OneToMany(() => StorageFileEntity, (storageFile) => storageFile.user)
+  // files: StorageFileEntity[];
 
   @ManyToOne(() => CompanyEntity, (company) => company.members)
   company: CompanyEntity;

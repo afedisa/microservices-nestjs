@@ -2,7 +2,6 @@ import { PaginationDto } from '@app/common';
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-  IsBoolean,
   IsNumber,
   IsOptional,
   IsString,
@@ -11,7 +10,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class FindCompaniesDto extends IntersectionType(PaginationDto) {
+export class FindUsersDto extends IntersectionType(PaginationDto) {
   @ApiProperty({
     description: 'Find By #',
     required: false,
@@ -26,27 +25,37 @@ export class FindCompaniesDto extends IntersectionType(PaginationDto) {
   })
   @IsString()
   @IsOptional()
-  name: string;
+  phone?: string;
 
   @ApiProperty({
     description: 'Find By #',
     required: false,
   })
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  enabled: boolean;
+  email?: string;
 
   @ApiProperty({
-    minimum: 10,
+    description: 'Find By #',
+    required: false,
+  })
+  @IsUUID()
+  @IsOptional()
+  company?: string;
+
+  @ApiProperty({
+    minimum: 1,
+    default: 10,
   })
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
-  @Min(10)
+  @Min(1)
   @Max(50)
   limit: number;
 
   @ApiProperty({
-    minimum: 0,
+    minimum: 1,
+    default: 1,
   })
   @Transform(({ value }) => parseInt(value))
   @IsNumber()

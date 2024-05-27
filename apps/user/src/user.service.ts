@@ -1,7 +1,8 @@
+import { FindUsersDto } from './dto/find-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, FindOptionsWhere, Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import _ from 'lodash';
@@ -39,23 +40,49 @@ export class UserService {
   async findAll({
     limit,
     page,
-  }: PaginationDto): Promise<IServiceResponse<IPagination<UserEntity>>> {
-    const users = await this.userRepository.find({
-      skip: (page - 1) * limit,
-      take: limit - 1,
-    });
-    const usersCount = await this.userRepository.count();
-    return {
-      state: true,
-      data: {
-        items: users,
-        limit: limit,
-        page: page,
-        total: usersCount,
-      },
-    };
+    phone,
+    company,
+    email,
+  }: FindUsersDto): Promise<IServiceResponse<IPagination<UserEntity>>> {
+    limit = limit || 20;
+    page = page || 1;
+    const where = [];
+    if (company) {
+      where.push({ 'company.id': company } as any);
+    }
+    if (phone) {
+      where.push({ phone } as any);
+    }
+    if (email) {
+      where.push({ email } as any);
+    }
+    console.log('where', where);
+    try {
+      const users = await this.userRepository.find({
+        where: where,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
+      const usersCount = await this.userRepository.count({
+        where: where,
+      });
+      return {
+        state: true,
+        data: {
+          limit: limit,
+          page: page,
+          items: users,
+          total: Math.ceil(usersCount / limit),
+        },
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: true,
+        data: error,
+      };
+    }
   }
-
   async findById(id: string): Promise<IServiceResponse<UserEntity>> {
     console.log('findOneBy', id);
     try {
@@ -102,6 +129,26 @@ export class UserService {
         state: false,
         data: null,
         message: 'user.update-fail',
+      };
+    }
+  }
+
+  async delete(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete service id', id);
+    try {
+      const result = await this.userRepository.delete({ id });
+      console.log('delete user', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'user.deleted' : 'user.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'user.notfound',
       };
     }
   }

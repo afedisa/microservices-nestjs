@@ -29,26 +29,36 @@ export class CompanyInvitationGatewayController {
   // TODO
 
   @Get('/:id')
-  async getInvitationById(@Param('id', ParseUUIDPipe) id: string) {}
+  async getInvitationById(@Param('id', ParseUUIDPipe) id: string) {
+    console.log('id', id);
+  }
 
   @Get('/code/:code')
-  async getInvitationByCode(@Param('code') code: string) {}
+  async getInvitationByCode(@Param('code') code: string) {
+    console.log('code', code);
+  }
 
   @Post('/')
   async createInvitation(
     @Body() createDto: CreateCompanyInvitationDto,
     @CurrentUser() user: UserEntity,
-  ) {}
+  ) {
+    console.log('createDto', createDto);
+  }
 
   @Delete('/:id')
   async removeInvitation(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: UserEntity,
-  ) {}
+  ) {
+    console.log('id', id);
+  }
 
   @Get('/use/:id')
   async useInvitation(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: UserEntity,
-  ) {}
+  ) {
+    console.log('id', id);
+  }
 }

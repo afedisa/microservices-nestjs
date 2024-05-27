@@ -7,6 +7,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IServiceResponse } from '@app/rabbit';
 import { IPagination, PaginationDto } from '@app/common';
+import { DeleteResult } from 'typeorm';
+import { FindUsersDto } from './dto/find-user.dto';
 
 @Controller()
 export class UserController {
@@ -19,11 +21,11 @@ export class UserController {
     return await this.userService.create(createDto);
   }
 
-  @MessagePattern(USER_MESSAGE_PATTERNS.FINDALL)
+  @MessagePattern(USER_MESSAGE_PATTERNS.FIND_ALL)
   async getUsers(
-    @Payload() paginationDto: PaginationDto,
+    @Payload() findDto: FindUsersDto,
   ): Promise<IServiceResponse<IPagination<UserEntity>>> {
-    return await this.userService.findAll(paginationDto);
+    return await this.userService.findAll(findDto);
   }
 
   @MessagePattern(USER_MESSAGE_PATTERNS.FIND_BY_ID)
@@ -46,5 +48,12 @@ export class UserController {
     @Payload('updateDto') updateDto: UpdateUserDto,
   ): Promise<IServiceResponse<UserEntity>> {
     return await this.userService.update(id, updateDto);
+  }
+
+  @MessagePattern(USER_MESSAGE_PATTERNS.DELETE)
+  async deleteUser(
+    @Payload() id: string,
+  ): Promise<IServiceResponse<DeleteResult>> {
+    return await this.userService.delete(id);
   }
 }

@@ -40,13 +40,13 @@ export class CompanyService {
     limit,
     page,
     name,
-    description,
     enabled,
   }: FindCompaniesDto): Promise<IServiceResponse<IPagination<CompanyEntity>>> {
+    limit = limit || 20;
+    page = page || 1;
     const where = [
-      name ? { name: Like(name) } : null,
-      description ? { description: Like(description) } : null,
-      enabled ? { enabled } : null,
+      name ? { name: Like(name) } : { name: 'IS NOT NULL' },
+      enabled ? { enabled } : { enabled: true },
     ];
     const companies = await this.companyRepository.find({
       where: where,

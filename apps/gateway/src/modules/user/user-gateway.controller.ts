@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { IGatewayResponse } from '../../common/interface/gateway.interface';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -18,6 +20,8 @@ import { IServiceResponse, RabbitServiceName } from '@app/rabbit';
 import { ClientProxy } from '@nestjs/microservices';
 import { USER_MESSAGE_PATTERNS } from 'apps/user/src/constant/user-patterns.constant';
 import { UpdateUserDto } from 'apps/user/src/dto/update-user.dto';
+import { FindUsersDto } from 'apps/user/src/dto/find-user.dto';
+import { IPagination } from '@app/common';
 
 @ApiTags('User Gateway')
 @Controller({
@@ -28,6 +32,24 @@ export class UserGatewayController {
   constructor(
     @Inject(RabbitServiceName.USER) private userClient: ClientProxy,
   ) {}
+
+  @Get('/all')
+  async getUsers(
+    @Query() findDto: FindUsersDto,
+    // @CurrentUser() user: UserEntity,
+  ): Promise<IGatewayResponse<IPagination<UserEntity>>> {
+    const { state, data: users } = await firstValueFrom(
+      this.userClient.send<
+        IServiceResponse<IPagination<UserEntity>>,
+        FindUsersDto
+      >(USER_MESSAGE_PATTERNS.FIND_ALL, findDto),
+    );
+    return {
+      state,
+      data: users,
+    };
+  }
+
   @Auth()
   @Get('/me')
   async getSelf(
@@ -39,7 +61,7 @@ export class UserGatewayController {
     };
   }
 
-  @Post('/new')
+  @Post('/')
   async createUser(
     @Body() createDto: CreateUserDto,
     // @CurrentUser() user: UserEntity,
@@ -97,6 +119,23 @@ export class UserGatewayController {
       state,
       data: newUser,
       message: message,
+    };
+  }
+
+  @Delete('/:id')
+  async deleteUser(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<IGatewayResponse<UserEntity>> {
+    console.log('deleteUser id', id);
+    const { state, data: user } = await firstValueFrom(
+      this.userClient.send<IServiceResponse<UserEntity>, string>(
+        USER_MESSAGE_PATTERNS.DELETE,
+        id,
+      ),
+    );
+    return {
+      state,
+      data: user,
     };
   }
 }

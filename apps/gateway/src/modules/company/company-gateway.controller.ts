@@ -32,7 +32,7 @@ export class CompanyGatewayController {
     @Inject(RabbitServiceName.COMPANY) private companyClient: ClientProxy,
   ) {}
 
-  @Get('/')
+  @Get('/all')
   async getCompanies(
     @Query() findDto: FindCompaniesDto,
   ): Promise<IGatewayResponse<IPagination<CompanyEntity>>> {
