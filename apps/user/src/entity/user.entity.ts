@@ -43,6 +43,9 @@ export class UserEntity {
   @Column({ nullable: true })
   birthday: Date;
 
+  @Column({ nullable: true })
+  extra: string;
+
   // @OneToOne(() => StorageFileEntity, (storageFile) => storageFile.id, {
   //   eager: true,
   //   onDelete: 'SET NULL',

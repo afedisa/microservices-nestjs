@@ -10,19 +10,19 @@ export class TokenModule {
         JwtModule.registerAsync({
           imports: [
             ConfigModule.forRoot({
-              envFilePath: './.env'
-            })
+              envFilePath: './.env',
+            }),
           ],
           useFactory: (configService: ConfigService) => ({
             secret: configService.get<string>('JWT_SECRET'),
             signOptions: {
-              expiresIn: '7d'
-            }
+              expiresIn: '7d',
+            },
           }),
-          inject: [ConfigService]
-        })
+          inject: [ConfigService],
+        }),
       ],
-      exports: [JwtModule]
-    }
+      exports: [JwtModule],
+    };
   }
 }

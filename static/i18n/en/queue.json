@@ -1,0 +1,4 @@
+{
+    "queue.invitation-success": "The user invite operation was successfully completed",
+    "queue.invitation-invalid": "User invitation operation is invalid"
+}

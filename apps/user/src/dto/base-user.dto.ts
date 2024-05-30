@@ -49,4 +49,12 @@ export class BaseUserDto {
   @ApiProperty()
   @IsDateString()
   birthday: Date;
+
+  @ApiProperty({
+    minLength: 1,
+    maxLength: 30,
+  })
+  @IsString()
+  @Length(1, 30)
+  extra: string;
 }

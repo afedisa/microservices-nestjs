@@ -55,6 +55,66 @@ services:
       - user
       - primary_db
       - rabbit
+  organization:
+    container_name: organization_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/organization/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  service:
+    container_name: service_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/service/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  queue:
+    container_name: queue_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/queue/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  location:
+    container_name: location_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/location/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  turn:
+    container_name: turn_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/turn/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
+  device:
+    container_name: device_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/device/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
   # otp:
   #   container_name: otp_service
   #   build:

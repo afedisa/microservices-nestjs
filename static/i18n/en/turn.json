@@ -1,0 +1,4 @@
+{
+    "turn.invitation-success": "The user invite operation was successfully completed",
+    "turn.invitation-invalid": "User invitation operation is invalid"
+}

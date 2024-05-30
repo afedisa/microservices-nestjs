@@ -133,6 +133,60 @@
       "compilerOptions": {
         "tsConfigPath": "apps/company/tsconfig.app.json"
       }
+    },
+    "organization": {
+      "type": "application",
+      "root": "apps/organization",
+      "entryFile": "main",
+      "sourceRoot": "apps/organization/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/organization/tsconfig.app.json"
+      }
+    },
+    "service": {
+      "type": "application",
+      "root": "apps/service",
+      "entryFile": "main",
+      "sourceRoot": "apps/service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service/tsconfig.app.json"
+      }
+    },
+    "location": {
+      "type": "application",
+      "root": "apps/location",
+      "entryFile": "main",
+      "sourceRoot": "apps/location/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/location/tsconfig.app.json"
+      }
+    },
+    "turn": {
+      "type": "application",
+      "root": "apps/turn",
+      "entryFile": "main",
+      "sourceRoot": "apps/turn/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/turn/tsconfig.app.json"
+      }
+    },
+    "queue": {
+      "type": "application",
+      "root": "apps/queue",
+      "entryFile": "main",
+      "sourceRoot": "apps/queue/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/queue/tsconfig.app.json"
+      }
+    },
+    "device": {
+      "type": "application",
+      "root": "apps/device",
+      "entryFile": "main",
+      "sourceRoot": "apps/device/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/device/tsconfig.app.json"
+      }
     }
   },
   "monorepo": true,

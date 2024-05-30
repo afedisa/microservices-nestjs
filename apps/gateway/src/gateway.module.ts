@@ -14,6 +14,9 @@ import { UserProfileGatewayController } from './modules/user/user-profile-gatewa
 import { CompanyGatewayController } from './modules/company/company-gateway.controller';
 import { CompanyMemberGatewayController } from './modules/company/company-member-gateway.controller';
 import { CompanyInvitationGatewayController } from './modules/company/company-invitation-gateway.controller';
+import { OrganizationMemberGatewayController } from './modules/organization/organization-member-gateway.controller';
+import { OrganizationGatewayController } from './modules/organization/organization-gateway.controller';
+import { OrganizationInvitationGatewayController } from './modules/organization/organization-invitation-gateway.controller';
 
 @Module({
   imports: [
@@ -30,6 +33,7 @@ import { CompanyInvitationGatewayController } from './modules/company/company-in
     RabbitModule.forClientProxy(RabbitServiceName.VEHICLE),
     RabbitModule.forClientProxy(RabbitServiceName.STORAGE),
     RabbitModule.forClientProxy(RabbitServiceName.COMPANY),
+    RabbitModule.forClientProxy(RabbitServiceName.ORGANIZATION),
     AuthenticationModule.register(),
     PolicyModule,
   ],
@@ -41,6 +45,9 @@ import { CompanyInvitationGatewayController } from './modules/company/company-in
     CompanyGatewayController,
     CompanyMemberGatewayController,
     CompanyInvitationGatewayController,
+    OrganizationGatewayController,
+    OrganizationMemberGatewayController,
+    OrganizationInvitationGatewayController,
   ],
 })
 export class GatewayModule {}

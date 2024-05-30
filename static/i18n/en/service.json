@@ -1,0 +1,4 @@
+{
+    "service.invitation-success": "The user invite operation was successfully completed",
+    "service.invitation-invalid": "User invitation operation is invalid"
+}
