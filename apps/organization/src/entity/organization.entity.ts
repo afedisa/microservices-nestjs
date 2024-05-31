@@ -3,15 +3,11 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { OrganizationCategoryEntity } from './organization-category.entity';
-import { OrganizationInvitationEntity } from './organization-invitation.entity';
 import { OrganizationMemberEntity } from './organization-member.entity';
 
 @Entity({
@@ -44,14 +40,4 @@ export class OrganizationEntity {
     (organizationMember) => organizationMember.organization,
   )
   members: OrganizationMemberEntity[];
-
-  // @OneToMany(
-  //   () => OrganizationInvitationEntity,
-  //   (organizationInviation) => organizationInviation.organization,
-  // )
-  // invitations: OrganizationInvitationEntity[];
-
-  // @ManyToMany(() => OrganizationCategoryEntity)
-  // @JoinTable()
-  // categories: OrganizationCategoryEntity[];
 }

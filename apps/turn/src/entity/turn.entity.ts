@@ -3,16 +3,10 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { TurnCategoryEntity } from './turn-category.entity';
-import { TurnInvitationEntity } from './turn-invitation.entity';
-import { TurnMemberEntity } from './turn-member.entity';
 
 @Entity({
   name: 'turn',
@@ -34,24 +28,6 @@ export class TurnEntity {
   @JoinColumn()
   owner: UserEntity;
 
-  @RelationId(
-    (turnEntity: TurnEntity) => turnEntity.owner,
-  )
+  @RelationId((turnEntity: TurnEntity) => turnEntity.owner)
   ownerId: string;
-
-  @OneToMany(
-    () => TurnMemberEntity,
-    (turnMember) => turnMember.turn,
-  )
-  members: TurnMemberEntity[];
-
-  // @OneToMany(
-  //   () => TurnInvitationEntity,
-  //   (turnInviation) => turnInviation.turn,
-  // )
-  // invitations: TurnInvitationEntity[];
-
-  // @ManyToMany(() => TurnCategoryEntity)
-  // @JoinTable()
-  // categories: TurnCategoryEntity[];
 }

@@ -1,4 +1,8 @@
 {
-    "device.invitation-success": "The user invite operation was successfully completed",
-    "device.invitation-invalid": "User invitation operation is invalid"
+    "created": "Device successfully created",
+    "created-fail": "Error creating device",
+    "updated": "Device updated successfully",
+    "update-fail": "Error updating device",
+    "found": "Device found successfully",
+    "notfound": "Device not found"
 }

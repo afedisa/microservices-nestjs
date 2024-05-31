@@ -65,16 +65,16 @@ services:
   #     - user
   #     - primary_db
   #     - rabbit
-  service:
-    container_name: service_service
-    build:
-      context: .
-      target: development
-      dockerfile: ./apps/service/Dockerfile
-    depends_on:
-      - user
-      - primary_db
-      - rabbit
+  # service:
+  #   container_name: service_service
+  #   build:
+  #     context: .
+  #     target: development
+  #     dockerfile: ./apps/service/Dockerfile
+  #   depends_on:
+  #     - user
+  #     - primary_db
+  #     - rabbit
   # queue:
   #   container_name: queue_service
   #   build:
@@ -95,16 +95,16 @@ services:
   #     - user
   #     - primary_db
   #     - rabbit
-  # turn:
-  #   container_name: turn_service
-  #   build:
-  #     context: .
-  #     target: development
-  #     dockerfile: ./apps/turn/Dockerfile
-  #   depends_on:
-  #     - user
-  #     - primary_db
-  #     - rabbit
+  turn:
+    container_name: turn_service
+    build:
+      context: .
+      target: development
+      dockerfile: ./apps/turn/Dockerfile
+    depends_on:
+      - user
+      - primary_db
+      - rabbit
   # device:
   #   container_name: device_service
   #   build:

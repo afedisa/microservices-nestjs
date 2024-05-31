@@ -1,4 +1,8 @@
 {
-    "location.invitation-success": "The user invite operation was successfully completed",
-    "location.invitation-invalid": "User invitation operation is invalid"
+    "created": "Location successfully created",
+    "created-fail": "Error creating location",
+    "updated": "Location updated successfully",
+    "update-fail": "Error updating location",
+    "found": "Location found successfully",
+    "notfound": "Location not found"
 }

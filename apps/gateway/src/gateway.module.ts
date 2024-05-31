@@ -16,7 +16,11 @@ import { CompanyMemberGatewayController } from './modules/company/company-member
 import { CompanyInvitationGatewayController } from './modules/company/company-invitation-gateway.controller';
 import { OrganizationMemberGatewayController } from './modules/organization/organization-member-gateway.controller';
 import { OrganizationGatewayController } from './modules/organization/organization-gateway.controller';
-import { OrganizationInvitationGatewayController } from './modules/organization/organization-invitation-gateway.controller';
+import { LocationGatewayController } from './modules/location/location-gateway.controller';
+import { LocationMemberGatewayController } from './modules/location/location-member-gateway.controller';
+import { QueueGatewayController } from './modules/queue/queue-gateway.controller';
+import { ServiceGatewayController } from './modules/service/service-gateway.controller';
+import { TurnGatewayController } from './modules/turn/turn-gateway.controller';
 
 @Module({
   imports: [
@@ -34,6 +38,10 @@ import { OrganizationInvitationGatewayController } from './modules/organization/
     RabbitModule.forClientProxy(RabbitServiceName.STORAGE),
     RabbitModule.forClientProxy(RabbitServiceName.COMPANY),
     RabbitModule.forClientProxy(RabbitServiceName.ORGANIZATION),
+    RabbitModule.forClientProxy(RabbitServiceName.SERVICE),
+    RabbitModule.forClientProxy(RabbitServiceName.QUEUE),
+    RabbitModule.forClientProxy(RabbitServiceName.LOCATION),
+    RabbitModule.forClientProxy(RabbitServiceName.TURN),
     AuthenticationModule.register(),
     PolicyModule,
   ],
@@ -47,7 +55,11 @@ import { OrganizationInvitationGatewayController } from './modules/organization/
     CompanyInvitationGatewayController,
     OrganizationGatewayController,
     OrganizationMemberGatewayController,
-    OrganizationInvitationGatewayController,
+    LocationGatewayController,
+    LocationMemberGatewayController,
+    QueueGatewayController,
+    ServiceGatewayController,
+    TurnGatewayController,
   ],
 })
 export class GatewayModule {}

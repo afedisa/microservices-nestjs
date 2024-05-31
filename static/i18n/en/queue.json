@@ -1,4 +1,8 @@
 {
-    "queue.invitation-success": "The user invite operation was successfully completed",
-    "queue.invitation-invalid": "User invitation operation is invalid"
+    "created": "Queue successfully created",
+    "created-fail": "Error creating queue",
+    "updated": "Queue updated successfully",
+    "update-fail": "Error updating queue",
+    "found": "Queue found successfully",
+    "notfound": "Queue not found"
 }

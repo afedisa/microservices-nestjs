@@ -4,5 +4,5 @@ export const USER_MESSAGE_PATTERNS = {
   FIND_BY_ID: 'user.findbyid',
   FIND_BY_PHONE: 'user.findbyphone',
   UPDATE: 'user.update',
-  DELETE: 'user.delete',
+  REMOVE: 'user.delete',
 };

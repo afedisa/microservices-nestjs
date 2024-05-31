@@ -1,4 +1,8 @@
 {
-    "turn.invitation-success": "The user invite operation was successfully completed",
-    "turn.invitation-invalid": "User invitation operation is invalid"
+    "created": "Turn successfully created",
+    "created-fail": "Error creating turn",
+    "updated": "Turn updated successfully",
+    "update-fail": "Error updating turn",
+    "found": "Turn found successfully",
+    "notfound": "Turn not found"
 }

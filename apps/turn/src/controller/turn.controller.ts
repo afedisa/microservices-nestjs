@@ -6,8 +6,9 @@ import { CreateTurnDto } from '../dto/turn/create-turn.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
 import { TurnEntity } from '../entity/turn.entity';
 import { TurnService } from '../service/turn.service';
-import { FindCompaniesDto } from '../dto/turn/find-turn.dto';
+import { FindTurnsDto } from '../dto/turn/find-turn.dto';
 import { IPagination } from '@app/common/interface/pagination.interface';
+import { DeleteResult } from 'typeorm';
 
 @Controller()
 export class TurnController {
@@ -23,7 +24,7 @@ export class TurnController {
 
   @MessagePattern(TURN_MESSAGE_PATTERNS.FIND_ALL)
   async getCompanies(
-    @Payload() findDto: FindCompaniesDto,
+    @Payload() findDto: FindTurnsDto,
   ): Promise<IServiceResponse<IPagination<TurnEntity>>> {
     return await this.turnService.findAll(findDto);
   }
@@ -33,5 +34,20 @@ export class TurnController {
     @Payload() id: string,
   ): Promise<IServiceResponse<TurnEntity>> {
     return await this.turnService.findById(id);
+  }
+
+  @MessagePattern(TURN_MESSAGE_PATTERNS.UPDATE)
+  async updateInvitation(
+    @Payload('id') id: string,
+    @Payload('updateDto') updateDto: Partial<TurnEntity>,
+  ): Promise<IServiceResponse<TurnEntity>> {
+    return await this.turnService.update(id, updateDto);
+  }
+
+  @MessagePattern(TURN_MESSAGE_PATTERNS.REMOVE)
+  async removeInvitation(
+    @Payload() id: string,
+  ): Promise<IServiceResponse<DeleteResult>> {
+    return await this.turnService.remove(id);
   }
 }

@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TurnEntity } from '../entity/turn.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateTurnDto } from '../dto/turn/create-turn.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
-import { FindCompaniesDto } from '../dto/turn/find-turn.dto';
+import { FindTurnsDto } from '../dto/turn/find-turn.dto';
 import { IPagination } from '@app/common';
 import { TURN_MAX_COUNT_PER_USER } from '../constant/turn.constant';
 
@@ -41,7 +41,7 @@ export class TurnService {
     page,
     name,
     enabled,
-  }: FindCompaniesDto): Promise<IServiceResponse<IPagination<TurnEntity>>> {
+  }: FindTurnsDto): Promise<IServiceResponse<IPagination<TurnEntity>>> {
     limit = limit || 20;
     page = page || 1;
     const where = [
@@ -87,6 +87,26 @@ export class TurnService {
       state: !!result,
       data: result,
     };
+  }
+
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete turn id', id);
+    try {
+      const result = await this.turnRepository.delete({ id });
+      console.log('delete turn', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'turn.deleted' : 'turn.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'turn.notfound',
+      };
+    }
   }
 
   async validateTurnCountLimitation(

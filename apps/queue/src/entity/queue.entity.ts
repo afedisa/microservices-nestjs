@@ -31,12 +31,6 @@ export class QueueEntity {
   @RelationId((queueEntity: QueueEntity) => queueEntity.owner)
   ownerId: string;
 
-  // @OneToMany(
-  //   () => QueueInvitationEntity,
-  //   (queueInviation) => queueInviation.queue,
-  // )
-  // invitations: QueueInvitationEntity[];
-
   // @ManyToMany(() => QueueCategoryEntity)
   // @JoinTable()
   // categories: QueueCategoryEntity[];

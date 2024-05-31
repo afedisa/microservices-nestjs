@@ -3,9 +3,6 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
@@ -34,15 +31,6 @@ export class DeviceEntity {
 
   @RelationId((deviceEntity: DeviceEntity) => deviceEntity.owner)
   ownerId: string;
-
-  // @OneToMany(() => DeviceMemberEntity, (deviceMember) => deviceMember.device)
-  // members: DeviceMemberEntity[];
-
-  // @OneToMany(
-  //   () => DeviceInvitationEntity,
-  //   (deviceInviation) => deviceInviation.device,
-  // )
-  // invitations: DeviceInvitationEntity[];
 
   // @ManyToMany(() => DeviceCategoryEntity)
   // @JoinTable()

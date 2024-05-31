@@ -9,7 +9,6 @@ import { CompanyEntity } from 'apps/company/src/entity/company.entity';
 import { CompanyMemberEntity } from 'apps/company/src/entity/company-member.entity';
 import { CompanyInvitationEntity } from 'apps/company/src/entity/company-invitation.entity';
 import { CompanyCategoryEntity } from 'apps/company/src/entity/company-category.entity';
-import { OrganizationInvitationEntity } from 'apps/organization/src/entity/organization-invitation.entity';
 import { OrganizationMemberEntity } from 'apps/organization/src/entity/organization-member.entity';
 import { OrganizationEntity } from 'apps/organization/src/entity/organization.entity';
 import { ServiceEntity } from 'apps/service/src/entity/service.entity';
@@ -18,8 +17,6 @@ import { DeviceCategoryEntity } from 'apps/device/src/entity/device-category.ent
 import { LocationMemberEntity } from 'apps/location/src/entity/location-member.entity';
 import { LocationEntity } from 'apps/location/src/entity/location.entity';
 import { QueueEntity } from 'apps/queue/src/entity/queue.entity';
-import { TurnInvitationEntity } from 'apps/turn/src/entity/turn-invitation.entity';
-import { TurnMemberEntity } from 'apps/turn/src/entity/turn-member.entity';
 import { TurnEntity } from 'apps/turn/src/entity/turn.entity';
 
 export const DATABASE_CONFIG: Record<
@@ -34,14 +31,11 @@ export const DATABASE_CONFIG: Record<
       DeviceCategoryEntity,
       QueueEntity,
       TurnEntity,
-      TurnMemberEntity,
-      TurnInvitationEntity,
       LocationEntity,
       LocationMemberEntity,
       ServiceEntity,
       OrganizationEntity,
       OrganizationMemberEntity,
-      OrganizationInvitationEntity,
       CompanyCategoryEntity,
       CompanyEntity,
       CompanyMemberEntity,

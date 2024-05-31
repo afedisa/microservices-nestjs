@@ -7,7 +7,7 @@ import { IPagination } from '@app/common/interface/pagination.interface';
 import { DeleteResult } from 'typeorm';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
 import { CreateQueueDto } from '../dto/queue/create-queue.dto';
-import { FindQueueDto } from '../dto/queue/find-queue.dto';
+import { FindQueuesDto } from '../dto/queue/find-queue.dto';
 import { QueueEntity } from '../entity/queue.entity';
 import { QueueService } from '../service/queue.service';
 
@@ -25,7 +25,7 @@ export class QueueController {
 
   @MessagePattern(QUEUE_MESSAGE_PATTERNS.FIND_ALL)
   async getCompanies(
-    @Payload() findDto: FindQueueDto,
+    @Payload() findDto: FindQueuesDto,
   ): Promise<IServiceResponse<IPagination<QueueEntity>>> {
     return await this.queueService.findAll(findDto);
   }

@@ -1,4 +1,8 @@
 {
-    "service.invitation-success": "The user invite operation was successfully completed",
-    "service.invitation-invalid": "User invitation operation is invalid"
+    "created": "Service successfully created",
+    "created-fail": "Error creating service",
+    "updated": "Service updated successfully",
+    "update-fail": "Error updating service",
+    "found": "Service found successfully",
+    "notfound": "Service not found"
 }

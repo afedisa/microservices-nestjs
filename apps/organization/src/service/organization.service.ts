@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrganizationEntity } from '../entity/organization.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateOrganizationDto } from '../dto/organization/create-organization.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -89,6 +89,25 @@ export class OrganizationService {
     };
   }
 
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete organization id', id);
+    try {
+      const result = await this.organizationRepository.delete({ id });
+      console.log('delete organization', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'organization.deleted' : 'organization.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'organization.notfound',
+      };
+    }
+  }
   async validateOrganizationCountLimitation(
     userId: string,
   ): Promise<IServiceResponse<boolean>> {

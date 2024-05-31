@@ -33,6 +33,17 @@ export class UserGatewayController {
     @Inject(RabbitServiceName.USER) private userClient: ClientProxy,
   ) {}
 
+  @Auth()
+  @Get('/me')
+  async getSelf(
+    @CurrentUser() user: UserEntity,
+  ): Promise<IGatewayResponse<UserEntity>> {
+    return {
+      state: true,
+      data: user,
+    };
+  }
+
   @Get('/all')
   async getUsers(
     @Query() findDto: FindUsersDto,
@@ -49,14 +60,18 @@ export class UserGatewayController {
       data: users,
     };
   }
-
-  @Auth()
-  @Get('/me')
-  async getSelf(
-    @CurrentUser() user: UserEntity,
+  @Get('/:id')
+  async getUserById(
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<IGatewayResponse<UserEntity>> {
+    const { state, data: user } = await firstValueFrom(
+      this.userClient.send<IServiceResponse<UserEntity>, string>(
+        USER_MESSAGE_PATTERNS.FIND_BY_ID,
+        id,
+      ),
+    );
     return {
-      state: true,
+      state,
       data: user,
     };
   }
@@ -80,22 +95,6 @@ export class UserGatewayController {
       state,
       data: newUser,
       message: message,
-    };
-  }
-
-  @Get('/:id')
-  async getUserById(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<IGatewayResponse<UserEntity>> {
-    const { state, data: user } = await firstValueFrom(
-      this.userClient.send<IServiceResponse<UserEntity>, string>(
-        USER_MESSAGE_PATTERNS.FIND_BY_ID,
-        id,
-      ),
-    );
-    return {
-      state,
-      data: user,
     };
   }
 
@@ -129,7 +128,7 @@ export class UserGatewayController {
     console.log('deleteUser id', id);
     const { state, data: user } = await firstValueFrom(
       this.userClient.send<IServiceResponse<UserEntity>, string>(
-        USER_MESSAGE_PATTERNS.DELETE,
+        USER_MESSAGE_PATTERNS.REMOVE,
         id,
       ),
     );

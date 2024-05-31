@@ -1,4 +1,8 @@
 {
-    "organization.invitation-success": "The user invite operation was successfully completed",
-    "organization.invitation-invalid": "User invitation operation is invalid"
+    "created": "Organization successfully created",
+    "created-fail": "Error creating organization",
+    "updated": "Organization updated successfully",
+    "update-fail": "Error updating organization",
+    "found": "Organization found successfully",
+    "notfound": "Organization not found"
 }
