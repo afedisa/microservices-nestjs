@@ -11,7 +11,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class FindCompaniesDto extends IntersectionType(PaginationDto) {
+export class FindQueueDto extends IntersectionType(PaginationDto) {
   @ApiProperty({
     description: 'Find By #',
     required: false,

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { LocationModule } from './location.module';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { RABBIT_SERVICE_OPTIONS } from '@app/rabbit';
+import { LocationModule } from './location.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(LocationModule);

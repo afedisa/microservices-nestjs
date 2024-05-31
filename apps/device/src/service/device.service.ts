@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeviceEntity } from '../entity/device.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateDeviceDto } from '../dto/device/create-device.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -87,6 +87,26 @@ export class DeviceService {
       state: !!result,
       data: result,
     };
+  }
+
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete device id', id);
+    try {
+      const result = await this.deviceRepository.delete({ id });
+      console.log('delete device', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'device.deleted' : 'device.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'device.notfound',
+      };
+    }
   }
 
   async validateDeviceCountLimitation(

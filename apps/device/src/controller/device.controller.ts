@@ -2,12 +2,13 @@ import { Controller, Get } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { DEVICE_MESSAGE_PATTERNS } from '../constant/device-patterns.constant';
 import { IServiceResponse } from '@app/rabbit';
-import { CreateDeviceDto } from '../dto/device/create-device.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
+import { IPagination } from '@app/common/interface/pagination.interface';
+import { CreateDeviceDto } from '../dto/device/create-device.dto';
+import { FindCompaniesDto } from '../dto/device/find-device.dto';
 import { DeviceEntity } from '../entity/device.entity';
 import { DeviceService } from '../service/device.service';
-import { FindCompaniesDto } from '../dto/device/find-device.dto';
-import { IPagination } from '@app/common/interface/pagination.interface';
+import { DeleteResult } from 'typeorm';
 
 @Controller()
 export class DeviceController {
@@ -33,5 +34,19 @@ export class DeviceController {
     @Payload() id: string,
   ): Promise<IServiceResponse<DeviceEntity>> {
     return await this.deviceService.findById(id);
+  }
+  @MessagePattern(DEVICE_MESSAGE_PATTERNS.UPDATE)
+  async updateInvitation(
+    @Payload('id') id: string,
+    @Payload('updateDto') updateDto: Partial<DeviceEntity>,
+  ): Promise<IServiceResponse<DeviceEntity>> {
+    return await this.deviceService.update(id, updateDto);
+  }
+
+  @MessagePattern(DEVICE_MESSAGE_PATTERNS.REMOVE)
+  async removeInvitation(
+    @Payload() id: string,
+  ): Promise<IServiceResponse<DeleteResult>> {
+    return await this.deviceService.remove(id);
   }
 }

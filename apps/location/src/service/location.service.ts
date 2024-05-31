@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocationEntity } from '../entity/location.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateLocationDto } from '../dto/location/create-location.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -89,6 +89,25 @@ export class LocationService {
     };
   }
 
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete location id', id);
+    try {
+      const result = await this.locationRepository.delete({ id });
+      console.log('delete location', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'location.deleted' : 'location.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'location.notfound',
+      };
+    }
+  }
   async validateLocationCountLimitation(
     userId: string,
   ): Promise<IServiceResponse<boolean>> {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueueEntity } from '../entity/queue.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateQueueDto } from '../dto/queue/create-queue.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -87,6 +87,26 @@ export class QueueService {
       state: !!result,
       data: result,
     };
+  }
+
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete queue id', id);
+    try {
+      const result = await this.queueRepository.delete({ id });
+      console.log('delete queue', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'queue.deleted' : 'queue.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'queue.notfound',
+      };
+    }
   }
 
   async validateQueueCountLimitation(

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ServiceEntity } from '../entity/service.entity';
 import { Database } from '@app/database';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { IServiceResponse } from '@app/rabbit';
 import { CreateServiceDto } from '../dto/service/create-service.dto';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
@@ -87,6 +87,26 @@ export class ServiceService {
       state: !!result,
       data: result,
     };
+  }
+
+  async remove(id: string): Promise<IServiceResponse<DeleteResult>> {
+    console.log('delete service id', id);
+    try {
+      const result = await this.serviceRepository.delete({ id });
+      console.log('delete service', result);
+      return {
+        state: !!result,
+        data: result,
+        message: !!result ? 'service.deleted' : 'service.notfound',
+      };
+    } catch (error) {
+      console.log('error', error);
+      return {
+        state: false,
+        data: error.detail,
+        message: 'service.notfound',
+      };
+    }
   }
 
   async validateServiceCountLimitation(

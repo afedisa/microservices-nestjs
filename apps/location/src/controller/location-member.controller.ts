@@ -3,9 +3,9 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { LOCATION_MEMBER_MESSAGE_PATTERNS } from '../constant/location-patterns.constant';
 import { IServiceResponse } from '@app/rabbit';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
-import { LocationMemberService } from '../service/location-member.service';
-import { LocationEntity } from '../entity/location.entity';
 import { LocationMemberEntity } from '../entity/location-member.entity';
+import { LocationEntity } from '../entity/location.entity';
+import { LocationMemberService } from '../service/location-member.service';
 
 @Controller()
 export class LocationMemberController {
@@ -38,12 +38,5 @@ export class LocationMemberController {
     @Payload() user: UserEntity,
   ): Promise<IServiceResponse<LocationMemberEntity>> {
     return await this.locationMemberService.remove(user);
-  }
-
-  @MessagePattern(LOCATION_MEMBER_MESSAGE_PATTERNS.is_UNEMPLOYED)
-  async getUserIsUnemployed(
-    @Payload() user: UserEntity,
-  ): Promise<IServiceResponse<boolean>> {
-    return await this.locationMemberService.isUnemployed(user);
   }
 }

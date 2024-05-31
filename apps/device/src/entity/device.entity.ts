@@ -10,9 +10,7 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { DeviceCategoryEntity } from './device-category.entity';
-import { DeviceInvitationEntity } from './device-invitation.entity';
-import { DeviceMemberEntity } from './device-member.entity';
+// import { DeviceCategoryEntity } from './device-category.entity';
 
 @Entity({
   name: 'device',
@@ -34,16 +32,11 @@ export class DeviceEntity {
   @JoinColumn()
   owner: UserEntity;
 
-  @RelationId(
-    (deviceEntity: DeviceEntity) => deviceEntity.owner,
-  )
+  @RelationId((deviceEntity: DeviceEntity) => deviceEntity.owner)
   ownerId: string;
 
-  @OneToMany(
-    () => DeviceMemberEntity,
-    (deviceMember) => deviceMember.device,
-  )
-  members: DeviceMemberEntity[];
+  // @OneToMany(() => DeviceMemberEntity, (deviceMember) => deviceMember.device)
+  // members: DeviceMemberEntity[];
 
   // @OneToMany(
   //   () => DeviceInvitationEntity,

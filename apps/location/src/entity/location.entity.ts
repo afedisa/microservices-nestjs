@@ -3,15 +3,11 @@ import {
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { LocationCategoryEntity } from './location-category.entity';
-import { LocationInvitationEntity } from './location-invitation.entity';
 import { LocationMemberEntity } from './location-member.entity';
 
 @Entity({
@@ -34,9 +30,7 @@ export class LocationEntity {
   @JoinColumn()
   owner: UserEntity;
 
-  @RelationId(
-    (locationEntity: LocationEntity) => locationEntity.owner,
-  )
+  @RelationId((locationEntity: LocationEntity) => locationEntity.owner)
   ownerId: string;
 
   @OneToMany(
@@ -44,14 +38,4 @@ export class LocationEntity {
     (locationMember) => locationMember.location,
   )
   members: LocationMemberEntity[];
-
-  // @OneToMany(
-  //   () => LocationInvitationEntity,
-  //   (locationInviation) => locationInviation.location,
-  // )
-  // invitations: LocationInvitationEntity[];
-
-  // @ManyToMany(() => LocationCategoryEntity)
-  // @JoinTable()
-  // categories: LocationCategoryEntity[];
 }

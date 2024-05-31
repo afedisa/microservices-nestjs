@@ -2,12 +2,13 @@ import { Controller, Get } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { SERVICE_MESSAGE_PATTERNS } from '../constant/service-patterns.constant';
 import { IServiceResponse } from '@app/rabbit';
-import { CreateServiceDto } from '../dto/service/create-service.dto';
+import { IPagination } from '@app/common/interface/pagination.interface';
+import { DeleteResult } from 'typeorm';
 import { UserEntity } from 'apps/user/src/entity/user.entity';
+import { CreateServiceDto } from '../dto/service/create-service.dto';
+import { FindCompaniesDto } from '../dto/service/find-service.dto';
 import { ServiceEntity } from '../entity/service.entity';
 import { ServiceService } from '../service/service.service';
-import { FindCompaniesDto } from '../dto/service/find-service.dto';
-import { IPagination } from '@app/common/interface/pagination.interface';
 
 @Controller()
 export class ServiceController {
@@ -33,5 +34,19 @@ export class ServiceController {
     @Payload() id: string,
   ): Promise<IServiceResponse<ServiceEntity>> {
     return await this.serviceService.findById(id);
+  }
+  @MessagePattern(SERVICE_MESSAGE_PATTERNS.UPDATE)
+  async updateInvitation(
+    @Payload('id') id: string,
+    @Payload('updateDto') updateDto: Partial<ServiceEntity>,
+  ): Promise<IServiceResponse<ServiceEntity>> {
+    return await this.serviceService.update(id, updateDto);
+  }
+
+  @MessagePattern(SERVICE_MESSAGE_PATTERNS.REMOVE)
+  async removeInvitation(
+    @Payload() id: string,
+  ): Promise<IServiceResponse<DeleteResult>> {
+    return await this.serviceService.remove(id);
   }
 }

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { ServiceModule } from './service.module';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { RABBIT_SERVICE_OPTIONS } from '@app/rabbit';
+import { ServiceModule } from './service.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ServiceModule);
